@@ -51,6 +51,7 @@ public final class OneDriveFileObject: FileObject {
         // checks for both sha1 or quickXor. First is available in personal drives, second in business one.
         self.fileHash = (hashes?["sha1Hash"] as? String) ?? (hashes?["quickXorHash"] as? String)
         self.downloadUrl = json["@microsoft.graph.downloadUrl"] as? String
+        self.jsonDictionary = json
     }
     
     /// The document identifier is a value assigned by the OneDrive to a file.
@@ -96,6 +97,9 @@ public final class OneDriveFileObject: FileObject {
     
     /// The download url of the item. Will be expired in one hour.
     public internal(set) var downloadUrl: String?
+    
+    /// The original dictionary.
+    public internal(set) var jsonDictionary: [String: Any]?
     
     static func url(of path: String, modifier: String?, baseURL: URL, route: OneDriveFileProvider.Route) -> URL {
         var url: URL = baseURL
