@@ -132,12 +132,12 @@
 		79F5745B1DFDB10B00179ABF /* FileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F5745A1DFDB10A00179ABF /* FileObject.swift */; };
 		79F5745C1DFDB10B00179ABF /* FileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F5745A1DFDB10A00179ABF /* FileObject.swift */; };
 		79F5745D1DFDB10B00179ABF /* FileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F5745A1DFDB10A00179ABF /* FileObject.swift */; };
-		A310EBB226BA3B74000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBB126BA3B74000F1D16 /* BoxFileHelper.swift */; };
-		A310EBB326BA3B74000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBB126BA3B74000F1D16 /* BoxFileHelper.swift */; };
-		A310EBB426BA3B74000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBB126BA3B74000F1D16 /* BoxFileHelper.swift */; };
-		A3D65F0326B80DF200BD2AD7 /* BoxFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D65F0226B80DF200BD2AD7 /* BoxFileProvider.swift */; };
-		A3D65F0426B80DF200BD2AD7 /* BoxFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D65F0226B80DF200BD2AD7 /* BoxFileProvider.swift */; };
-		A3D65F0526B80DF200BD2AD7 /* BoxFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D65F0226B80DF200BD2AD7 /* BoxFileProvider.swift */; };
+		A310EBC026BAAEFE000F1D16 /* BoxFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBE26BAAEFE000F1D16 /* BoxFileProvider.swift */; };
+		A310EBC126BAAEFE000F1D16 /* BoxFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBE26BAAEFE000F1D16 /* BoxFileProvider.swift */; };
+		A310EBC226BAAEFE000F1D16 /* BoxFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBE26BAAEFE000F1D16 /* BoxFileProvider.swift */; };
+		A310EBC326BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */; };
+		A310EBC426BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */; };
+		A310EBC526BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */; };
 		A3D8FDC726B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */; };
 		A3D8FDC826B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */; };
 		A3D8FDC926B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */; };
@@ -221,8 +221,8 @@
 		79D903531FAB647400D61D31 /* FilesProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesProviderTests.swift; sourceTree = "<group>"; };
 		79D903551FAB647400D61D31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		79F5745A1DFDB10A00179ABF /* FileObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileObject.swift; sourceTree = "<group>"; };
-		A310EBB126BA3B74000F1D16 /* BoxFileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxFileHelper.swift; sourceTree = "<group>"; };
-		A3D65F0226B80DF200BD2AD7 /* BoxFileProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxFileProvider.swift; sourceTree = "<group>"; };
+		A310EBBE26BAAEFE000F1D16 /* BoxFileProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxFileProvider.swift; sourceTree = "<group>"; };
+		A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxFileHelper.swift; sourceTree = "<group>"; };
 		A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveFileProvider.swift; sourceTree = "<group>"; };
 		A3D8FDCA26B78D82003DC622 /* GoogleDriveHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveHelper.swift; sourceTree = "<group>"; };
 		CE27C498219BFFA0000BE23C /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTrustPolicy.swift; sourceTree = "<group>"; };
@@ -355,6 +355,8 @@
 				799396991D48C02300086753 /* SMBTypes */,
 				799396941D48C02300086753 /* FileProvider.h */,
 				799396951D48C02300086753 /* FileProvider.swift */,
+				A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */,
+				A310EBBE26BAAEFE000F1D16 /* BoxFileProvider.swift */,
 				79F5745A1DFDB10A00179ABF /* FileObject.swift */,
 				799396961D48C02300086753 /* LocalFileProvider.swift */,
 				792572401DF23BDA006A1526 /* LocalHelper.swift */,
@@ -369,8 +371,6 @@
 				79BD63C41E2D17880035128C /* OneDriveHelper.swift */,
 				A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */,
 				A3D8FDCA26B78D82003DC622 /* GoogleDriveHelper.swift */,
-				A3D65F0226B80DF200BD2AD7 /* BoxFileProvider.swift */,
-				A310EBB126BA3B74000F1D16 /* BoxFileHelper.swift */,
 				799396A61D48C02300086753 /* WebDAVFileProvider.swift */,
 				7936BC111E880F5700A6C81C /* FTPFileProvider.swift */,
 				798654321E8874BC002FA550 /* FTPHelper.swift */,
@@ -600,6 +600,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A310EBC026BAAEFE000F1D16 /* BoxFileProvider.swift in Sources */,
 				799396B31D48C02300086753 /* LocalFileProvider.swift in Sources */,
 				A3D8FDCB26B78D82003DC622 /* GoogleDriveHelper.swift in Sources */,
 				799396D41D48C02300086753 /* SMB2Tree.swift in Sources */,
@@ -614,6 +615,7 @@
 				799396C81D48C02300086753 /* SMB2IOCtl.swift in Sources */,
 				799396D71D48C02300086753 /* SMB2Types.swift in Sources */,
 				7958155A1F478ED9003344DD /* HTTPFileProvider.swift in Sources */,
+				A310EBC326BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */,
 				798654331E8874BC002FA550 /* FTPHelper.swift in Sources */,
 				7924B1B21D89FCDA00589DB7 /* FPSStreamTask.swift in Sources */,
 				799396C51D48C02300086753 /* SMB2FileOperation.swift in Sources */,
@@ -630,14 +632,12 @@
 				799396CE1D48C02300086753 /* SMB2Session.swift in Sources */,
 				799396E01D48C02300086753 /* WebDAVFileProvider.swift in Sources */,
 				799396DA1D48C02300086753 /* SMBErrorType.swift in Sources */,
-				A3D65F0326B80DF200BD2AD7 /* BoxFileProvider.swift in Sources */,
 				799396C21D48C02300086753 /* SMB2FileHandle.swift in Sources */,
 				793CCE2E1F4B8C7B00BC8288 /* HashMAC.swift in Sources */,
 				799396CB1D48C02300086753 /* SMB2Query.swift in Sources */,
 				799396AA1D48C02300086753 /* DropboxFileProvider.swift in Sources */,
 				79BD638C1E2CC2300035128C /* ExtendedLocalFileProvider.swift in Sources */,
 				7924B1B31D89FD6400589DB7 /* SMBClient.swift in Sources */,
-				A310EBB226BA3B74000F1D16 /* BoxFileHelper.swift in Sources */,
 				793CCE2A1F4B8C5C00BC8288 /* FoundationExtensions.swift in Sources */,
 				7924B1A51D89DAE000589DB7 /* Parser.swift in Sources */,
 				799396B01D48C02300086753 /* FileProvider.swift in Sources */,
@@ -649,6 +649,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A310EBC126BAAEFE000F1D16 /* BoxFileProvider.swift in Sources */,
 				799396B41D48C02300086753 /* LocalFileProvider.swift in Sources */,
 				A3D8FDCC26B78D82003DC622 /* GoogleDriveHelper.swift in Sources */,
 				799396D51D48C02300086753 /* SMB2Tree.swift in Sources */,
@@ -663,6 +664,7 @@
 				7924B19A1D89DAE000589DB7 /* Element.swift in Sources */,
 				799396C91D48C02300086753 /* SMB2IOCtl.swift in Sources */,
 				7958155B1F478ED9003344DD /* HTTPFileProvider.swift in Sources */,
+				A310EBC426BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */,
 				79F4678B1E8B80F200C91A85 /* FTPHelper.swift in Sources */,
 				799396D81D48C02300086753 /* SMB2Types.swift in Sources */,
 				799396C61D48C02300086753 /* SMB2FileOperation.swift in Sources */,
@@ -679,14 +681,12 @@
 				799396CF1D48C02300086753 /* SMB2Session.swift in Sources */,
 				799396E11D48C02300086753 /* WebDAVFileProvider.swift in Sources */,
 				799396DB1D48C02300086753 /* SMBErrorType.swift in Sources */,
-				A3D65F0426B80DF200BD2AD7 /* BoxFileProvider.swift in Sources */,
 				799396C31D48C02300086753 /* SMB2FileHandle.swift in Sources */,
 				793CCE2F1F4B8C7B00BC8288 /* HashMAC.swift in Sources */,
 				799396CC1D48C02300086753 /* SMB2Query.swift in Sources */,
 				7924B1AD1D89F7D800589DB7 /* SMBClient.swift in Sources */,
 				79BD638D1E2CC2300035128C /* ExtendedLocalFileProvider.swift in Sources */,
 				799396AB1D48C02300086753 /* DropboxFileProvider.swift in Sources */,
-				A310EBB326BA3B74000F1D16 /* BoxFileHelper.swift in Sources */,
 				793CCE2B1F4B8C5C00BC8288 /* FoundationExtensions.swift in Sources */,
 				7924B1A61D89DAE000589DB7 /* Parser.swift in Sources */,
 				799396B11D48C02300086753 /* FileProvider.swift in Sources */,
@@ -698,6 +698,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A310EBC226BAAEFE000F1D16 /* BoxFileProvider.swift in Sources */,
 				799396B51D48C02300086753 /* LocalFileProvider.swift in Sources */,
 				A3D8FDCD26B78D82003DC622 /* GoogleDriveHelper.swift in Sources */,
 				799396D61D48C02300086753 /* SMB2Tree.swift in Sources */,
@@ -712,6 +713,7 @@
 				7924B19B1D89DAE000589DB7 /* Element.swift in Sources */,
 				799396CA1D48C02300086753 /* SMB2IOCtl.swift in Sources */,
 				7958155C1F478ED9003344DD /* HTTPFileProvider.swift in Sources */,
+				A310EBC526BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */,
 				79F4678C1E8B80F200C91A85 /* FTPHelper.swift in Sources */,
 				799396D91D48C02300086753 /* SMB2Types.swift in Sources */,
 				799396C71D48C02300086753 /* SMB2FileOperation.swift in Sources */,
@@ -728,14 +730,12 @@
 				799396D01D48C02300086753 /* SMB2Session.swift in Sources */,
 				799396E21D48C02300086753 /* WebDAVFileProvider.swift in Sources */,
 				799396DC1D48C02300086753 /* SMBErrorType.swift in Sources */,
-				A3D65F0526B80DF200BD2AD7 /* BoxFileProvider.swift in Sources */,
 				799396C41D48C02300086753 /* SMB2FileHandle.swift in Sources */,
 				793CCE301F4B8C7B00BC8288 /* HashMAC.swift in Sources */,
 				799396CD1D48C02300086753 /* SMB2Query.swift in Sources */,
 				7924B1AE1D89F7D900589DB7 /* SMBClient.swift in Sources */,
 				79BD638E1E2CC2300035128C /* ExtendedLocalFileProvider.swift in Sources */,
 				799396AC1D48C02300086753 /* DropboxFileProvider.swift in Sources */,
-				A310EBB426BA3B74000F1D16 /* BoxFileHelper.swift in Sources */,
 				793CCE2C1F4B8C5C00BC8288 /* FoundationExtensions.swift in Sources */,
 				7924B1A71D89DAE000589DB7 /* Parser.swift in Sources */,
 				799396B21D48C02300086753 /* FileProvider.swift in Sources */,
