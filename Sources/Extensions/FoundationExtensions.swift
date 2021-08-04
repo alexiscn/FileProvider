@@ -712,3 +712,28 @@ extension ArraySlice {
 #endif
 
 
+internal extension CharacterSet {
+    static let fpURLQueryAllowed: CharacterSet = {
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+        let encodableDelimiters = CharacterSet(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+
+        return CharacterSet.urlQueryAllowed.subtracting(encodableDelimiters)
+    }()
+}
+
+internal extension Dictionary where Key == String, Value == String {
+    
+    var fpQuery: String {
+        var components: [(String, String)] = []
+        for key in keys.sorted(by: <) {
+            let value = self[key]!
+            components += [(escape(key), escape("\(value)"))]
+        }
+        return components.map { "\($0)=\($1)" }.joined(separator: "&")
+    }
+            
+    func escape(_ string: String) -> String {
+        string.addingPercentEncoding(withAllowedCharacters: .fpURLQueryAllowed) ?? string
+    }
+}
