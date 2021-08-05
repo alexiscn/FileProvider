@@ -152,6 +152,8 @@ public struct ContentMIMEType: RawRepresentable, Hashable, Equatable {
     
     /// Binary stream and unknown types
     static public let stream = ContentMIMEType(rawValue: "application/octet-stream")
+    /// Multipart/form-data
+    static public let multipart = ContentMIMEType(rawValue: "multipart/form-data")
     /// Protable document format
     static public let pdf = ContentMIMEType(rawValue: "application/pdf")
     /// Zip archive

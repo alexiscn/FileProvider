@@ -144,37 +144,76 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
         
         func uploadRequest(to path: String) -> URLRequest {
             var requestDictionary = [String: Any]()
-            let url: URL = URL(string: "files/content", relativeTo: uploadURL)!
-            requestDictionary["path"] = path
+            let url = uploadURL.appendingPathComponent("files/content")
+            
+            let components = path.split(separator: "/").map { String($0) }
+            if components.count == 2 {
+                requestDictionary["attributes"] = [
+                    "name": components[1],
+                    "parent": [
+                        "id": components[0]
+                    ]
+                ]
+            }
             
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue(authentication: credential, with: .oAuth2)
-            request.setValue(contentType: .stream)
+            request.setValue(contentType: .multipart)
+            request.httpBody = Data(jsonDictionary: requestDictionary)
             return request
         }
         
         func downloadRequest(from path: String) -> URLRequest {
-            
-            var url = URL(string: "")!
-            return URLRequest(url: url)
-        }
-        
-        /// https://developer.box.com/reference/put-files-id/
-        func moveRequest(from source: String, to dest: String) -> URLRequest {
-            let url = URL(string: "files/\(source)", relativeTo: apiURL)!
+            let url = apiURL.appendingPathComponent("files/\(path)/content")
             var request = URLRequest(url: url)
-            request.httpMethod = "PUT"
+            request.httpMethod = "GET"
+            request.setValue(authentication: credential, with: .oAuth2)
             return request
         }
         
         switch operation {
-        case .move(let source, let dest):
-            return moveRequest(from: source, to: dest)
+        case .fetch(let path):
+            return downloadRequest(from: path)
+        case .modify(let path):
+            return uploadRequest(to: path)
         default:
-            return URLRequest(url: URL(string: "")!)
+            return apiRequest(for: operation, overwrite: overwrite)
         }
     }
     
+    func apiRequest(for operation: FileOperationType, overwrite: Bool = false) -> URLRequest {
+        
+        var httpMethod = "POST"
+        let url: String
+        let sourcePath = operation.source
+        let destPath = operation.destination
+        var requestDictionary = [String: Any]()
+        switch operation {
+        case .create:
+            url = "folders"
+            let components = sourcePath.trimmingCharacters(in: CharacterSet(["/"])).split(separator: "/").map { String($0) }
+            if components.count == 2 {
+                requestDictionary["name"] = components[1]
+                requestDictionary["parent"] = ["id": components[0]]
+            }
+        case .remove:
+            httpMethod = "DELETE"
+            url = "file_requests/" + sourcePath
+        case .move:
+            httpMethod = "PUT"
+            url = "files/" + sourcePath
+            requestDictionary["name"] = destPath
+        default:
+            fatalError("Unimplemented operation \(operation.description) in \(#file)")
+        }
+        
+        var request = URLRequest(url: apiURL.appendingPathComponent(url))
+        request.httpMethod = httpMethod
+        request.setValue(authentication: credential, with: .oAuth2)
+        request.setValue(contentType: .json)
+        request.httpBody = Data(jsonDictionary: requestDictionary)
+        return request
+    }
     
 }
