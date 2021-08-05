@@ -25,14 +25,15 @@ public final class BoxFileObject: FileObject {
     internal init?(json: [String: Any]) {
         guard let name = json["name"] as? String else { return nil }
         guard let id = json["id"] as? String else { return nil }
-        //let path = id
-        //let path = "id:\(id)"
-        super.init(url: nil, name: name, path: name)
+        let path = "id:\(id)"
+        super.init(url: nil, name: name, path: path)
         self.size = (json["size"] as? NSNumber)?.int64Value ?? -1
         self.id = id
         self.type = (json["type"] as? String) == "folder" ? .directory: .regular
         self.modifiedDate = (json["modified_at"] as? String).flatMap(Date.init(rfcString:))
         self.creationDate = (json["created_at"] as? String).flatMap(Date.init(rfcString:))
+        self.entryTag = json["etag"] as? String
+        self.fileHash = json["sha1"] as? String
     }
     
     /// The document identifier is a value assigned by the Box to a file.
@@ -46,19 +47,36 @@ public final class BoxFileObject: FileObject {
         }
     }
     
+    /// HTTP E-Tag, can be used to mark changed files.
+    public internal(set) var entryTag: String? {
+        get {
+            return allValues[.entryTagKey] as? String
+        }
+        set {
+            allValues[.entryTagKey] = newValue
+        }
+    }
+    
+    public internal(set) var fileHash: String? {
+        get {
+            return allValues[.documentIdentifierKey] as? String
+        }
+        set {
+            allValues[.documentIdentifierKey] = newValue
+        }
+    }
+    
     static func url(of path: String, modifier: String?, baseURL: URL) -> URL {
         var url: URL = baseURL
         let isId = path.hasPrefix("id:")
         var rpath: String = path.replacingOccurrences(of: "id:", with: "", options: .anchored)
         
-        url.appendPathComponent("v2.0")
-        
         if rpath.isEmpty {
-            url.appendPathComponent("root")
+            url.appendPathComponent("0")
         } else if isId {
             url.appendPathComponent("items")
         } else {
-            url.appendPathComponent("root:")
+            url.appendPathComponent("0:")
         }
         
         rpath = rpath.trimmingCharacters(in: pathTrimSet)

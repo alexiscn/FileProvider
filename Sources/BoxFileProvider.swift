@@ -10,6 +10,15 @@ import Foundation
 import CoreGraphics
 #endif
 
+/**
+ Allows accessing to Box stored files.
+ This provider doesn't cache or save files internally, however you can set `useCache` and `cache` properties
+ to use Foundation `NSURLCache` system.
+ 
+ - Note: You can pass file id instead of file path, e.g `"id:1234abcd"`, to point to a file or folder by ID.
+ 
+ - Note: Uploading files and data are limited to 100MB, for now.
+ */
 open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
     
     override open class var type: String { return "Box" }
@@ -62,10 +71,20 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
        - error: Error returned by system.
      */
     open override func contentsOfDirectory(path: String, completionHandler: @escaping (_ contents: [FileObject], _ error: Error?) -> Void) {
-        _ = paginated("folders/\(path)/items/", requestHandler: { [weak self] token -> URLRequest? in
+        _ = paginated(path, requestHandler: { [weak self] token -> URLRequest? in
             guard let `self` = self else { return nil }
             
-            var components = URLComponents(string: self.apiURL.appendingPathComponent("folders/\(path)/items").absoluteString)!
+            let id: String
+            if path.isEmpty {
+                id = "0"
+            } else if path.hasPrefix("id:") {
+                id = path.replacingOccurrences(of: "id:", with: "", options: .anchored)
+            } else {
+                id = path
+            }
+            
+            let url = self.apiURL.appendingPathComponent("folders").appendingPathComponent(id).appendingPathComponent("items")
+            var components = URLComponents(string: url.absoluteString)!
             if let token = token {
                 components.queryItems = [
                     URLQueryItem(name: "offset", value: token),
@@ -140,6 +159,13 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
         return FileProviderBoxError(code: code, path: path ?? "", serverDescription: errorDesc)
     }
     
+    func correctPath(_ path: String) -> String {
+        if path.hasPrefix("id:") {
+            return path.replacingOccurrences(of: "id:", with: "", options: .anchored)
+        }
+        return path
+    }
+    
     override func request(for operation: FileOperationType, overwrite: Bool = false, attributes: [URLResourceKey : Any] = [:]) -> URLRequest {
         
         func uploadRequest(to path: String) -> URLRequest {
@@ -165,7 +191,8 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
         }
         
         func downloadRequest(from path: String) -> URLRequest {
-            let url = apiURL.appendingPathComponent("files/\(path)/content")
+            let fileId = correctPath(path)
+            let url = apiURL.appendingPathComponent("files/\(fileId)/content")
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             request.setValue(authentication: credential, with: .oAuth2)
@@ -195,11 +222,11 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
             let components = sourcePath.trimmingCharacters(in: CharacterSet(["/"])).split(separator: "/").map { String($0) }
             if components.count == 2 {
                 requestDictionary["name"] = components[1]
-                requestDictionary["parent"] = ["id": components[0]]
+                requestDictionary["parent"] = ["id": correctPath(components[0])]
             }
         case .remove:
             httpMethod = "DELETE"
-            url = "file_requests/" + sourcePath
+            url = "file_requests/" + correctPath(sourcePath)
         case .move:
             httpMethod = "PUT"
             url = "files/" + sourcePath
