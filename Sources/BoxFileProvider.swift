@@ -15,7 +15,7 @@ import CoreGraphics
  This provider doesn't cache or save files internally, however you can set `useCache` and `cache` properties
  to use Foundation `NSURLCache` system.
  
- - Note: You can pass file id instead of file path, e.g `"id:1234abcd"`, to point to a file or folder by ID.
+ - Note: The path of file is the file id,  e.g `"1234abcd"`, you can pass `"id:1234abcd"` to point to a file or folder by ID.
  
  - Note: Uploading files and data are limited to 100MB, for now.
  */
@@ -120,12 +120,45 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
         }, completionHandler: completionHandler)
     }
     
+    /**
+     Returns a `FileObject` containing the attributes of the item (file, directory, symlink, etc.) at the path in question via asynchronous completion handler.
+     
+     If the directory contains no entries or an error is occured, this method will return the empty `FileObject`.
+     
+     - Parameters:
+       - path: path to target directory. If empty, attributes of root will be returned.
+       - completionHandler: a closure with result of directory entries or error.
+       - attributes: A `FileObject` containing the attributes of the item.
+       - error: Error returned by system.
+     */
     open override func attributesOfItem(path: String, completionHandler: @escaping (FileObject?, Error?) -> Void) {
-        // not implement yet
+        let url = apiURL.appendingPathComponent("files").appendingPathComponent(path)
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue(authentication: credential, with: .oAuth2)
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            var serverError: FileProviderHTTPError?
+            var fileObject: BoxFileObject?
+            if let response = response as? HTTPURLResponse, response.statusCode >= 400 {
+                let code = FileProviderHTTPErrorCode(rawValue: response.statusCode)
+                serverError = code.flatMap { self.serverError(with: $0, path: path, data: data) }
+            }
+            if let json = data?.deserializeJSON(), let file = BoxFileObject(json: json) {
+                fileObject = file
+            }
+            completionHandler(fileObject, serverError ?? error)
+        })
+        task.resume()
     }
     
     public func publicLink(to path: String, completionHandler: @escaping (URL?, FileObject?, Date?, Error?) -> Void) {
         // not implement yet
+    }
+    
+    @discardableResult
+    public func removeFolder(path: String, completionHandler: SimpleCompletionHandler) -> Progress? {
+        // to differ from remove file, we add folder:
+        return removeItem(path: "folder:" + path, completionHandler: completionHandler)
     }
     
     /// Returns volume/provider information asynchronously.
@@ -159,13 +192,6 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
         return FileProviderBoxError(code: code, path: path ?? "", serverDescription: errorDesc)
     }
     
-    func correctPath(_ path: String) -> String {
-        if path.hasPrefix("id:") {
-            return path.replacingOccurrences(of: "id:", with: "", options: .anchored)
-        }
-        return path
-    }
-    
     override func request(for operation: FileOperationType, overwrite: Bool = false, attributes: [URLResourceKey : Any] = [:]) -> URLRequest {
         
         func uploadRequest(to path: String) -> URLRequest {
@@ -191,8 +217,7 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
         }
         
         func downloadRequest(from path: String) -> URLRequest {
-            let fileId = correctPath(path)
-            let url = apiURL.appendingPathComponent("files/\(fileId)/content")
+            let url = apiURL.appendingPathComponent("files/\(path)/content")
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             request.setValue(authentication: credential, with: .oAuth2)
@@ -222,11 +247,16 @@ open class BoxFileProvider: HTTPFileProvider, FileProviderSharing {
             let components = sourcePath.trimmingCharacters(in: CharacterSet(["/"])).split(separator: "/").map { String($0) }
             if components.count == 2 {
                 requestDictionary["name"] = components[1]
-                requestDictionary["parent"] = ["id": correctPath(components[0])]
+                requestDictionary["parent"] = ["id": components[0]]
             }
         case .remove:
             httpMethod = "DELETE"
-            url = "file_requests/" + correctPath(sourcePath)
+            if sourcePath.hasPrefix("folder:") {
+                let folderId = sourcePath.replacingOccurrences(of: "folder:", with: "", options: .anchored)
+                url = "folders/" + folderId
+            } else {
+                url = "files/" + sourcePath
+            }
         case .move:
             httpMethod = "PUT"
             url = "files/" + sourcePath
