@@ -26,7 +26,7 @@ public final class OneDriveFileObject: FileObject {
         guard let name = json["name"] as? String else { return nil }
         guard let id = json["id"] as? String else { return nil }
         let path: String
-        if let refpath = (json["parentReference"] as? [String: Any])?["path"] as? String {
+        if let refpath = ((json["parentReference"] as? [String: Any])?["path"] as? String)?.removingPercentEncoding {
             let parentPath: String
             if let colonIndex = refpath.firstIndex(of: ":") {
                 parentPath = String(refpath[refpath.index(after: colonIndex)...])
