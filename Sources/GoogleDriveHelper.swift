@@ -27,15 +27,16 @@ public final class GoogleDriveFileObject: FileObject {
     
     internal init? (json: [String: Any]) {
         guard let name = json["name"] as? String else { return nil }
-        guard let path = json["name"] as? String else { return nil }
-        super.init(url: nil, name: name, path: path)
+        guard let id = json["id"] as? String else { return nil }
+        super.init(url: nil, name: name, path: id)
         
-        self.id = json["id"] as? String
+        self.id = id
         let mimeType = json["mimeType"] as? String
         self.type = mimeType == ContentMIMEType.googleFolder.rawValue ? .directory : .regular
         self.size = Int64(json["size"] as? String ?? "-1") ?? -1
         self.modifiedDate = (json["modifiedTime"] as? String).flatMap(Date.init(rfcString:))
         self.creationDate = (json["createdTime"] as? String).flatMap(Date.init(rfcString:))
+        self.fileHash = json["md5Checksum"] as? String
     }
     
     /// The document identifier is a value assigned by the Box to a file.
@@ -46,6 +47,16 @@ public final class GoogleDriveFileObject: FileObject {
         }
         set {
             allValues[.fileResourceIdentifierKey] = newValue
+        }
+    }
+    
+    /// The MD5 checksum for the content of the file. This is only applicable to files with binary content in Google Drive.
+    public internal(set) var fileHash: String? {
+        get {
+            return allValues[.documentIdentifierKey] as? String
+        }
+        set {
+            allValues[.documentIdentifierKey] = newValue
         }
     }
 }

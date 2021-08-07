@@ -93,12 +93,39 @@ open class GoogleDriveFileProvider: HTTPFileProvider, FileProviderSharing {
         }, completionHandler: completionHandler)
     }
     
+    /**
+     Returns a `FileObject` containing the attributes of the item (file, directory, symlink, etc.) at the path in question via asynchronous completion handler.
+     
+     If the directory contains no entries or an error is occured, this method will return the empty `FileObject`.
+     
+     - Parameters:
+       - path: path to target directory. If empty, attributes of root will be returned.
+       - completionHandler: a closure with result of directory entries or error.
+       - attributes: A `FileObject` containing the attributes of the item.
+       - error: Error returned by system.
+     */
     open override func attributesOfItem(path: String, completionHandler: @escaping (FileObject?, Error?) -> Void) {
-        
+        let urlString = apiURL.absoluteString.appending("/files/\(path)?fields=*")
+        var request = URLRequest(url: URL(string: urlString)!)
+        request.httpMethod = "GET"
+        request.setValue(authentication: self.credential, with: .oAuth2)
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            var serverError: FileProviderHTTPError?
+            var fileObject: GoogleDriveFileObject?
+            if let response = response as? HTTPURLResponse, response.statusCode >= 400 {
+                let code = FileProviderHTTPErrorCode(rawValue: response.statusCode)
+                serverError = code.flatMap { self.serverError(with: $0, path: path, data: data) }
+            }
+            if let json = data?.deserializeJSON(), let file = GoogleDriveFileObject(json: json) {
+                fileObject = file
+            }
+            completionHandler(fileObject, serverError ?? error)
+        })
+        task.resume()
     }
     
     public func publicLink(to path: String, completionHandler: @escaping (URL?, FileObject?, Date?, Error?) -> Void) {
-        
+        // not implemented
     }
         
     /// Returns volume/provider information asynchronously.
@@ -126,7 +153,7 @@ open class GoogleDriveFileProvider: HTTPFileProvider, FileProviderSharing {
     override func request(for operation: FileOperationType, overwrite: Bool = false, attributes: [URLResourceKey : Any] = [:]) -> URLRequest {
         
         func downloadRequest(from path: String) -> URLRequest {
-            let url = URL(string: "files/\(path)?alt=media", relativeTo: apiURL)!
+            let url = URL(string: apiURL.absoluteString.appending("/files/\(path)?alt=media"))!
             var request = URLRequest(url: url)
             request = URLRequest(url: url)
             request.setValue(authentication: credential, with: .oAuth2)
