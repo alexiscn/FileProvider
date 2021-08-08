@@ -138,6 +138,12 @@
 		A310EBC326BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */; };
 		A310EBC426BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */; };
 		A310EBC526BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */; };
+		A38DF2FF26BF74B20096A515 /* BaiduPanFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38DF2FE26BF74B20096A515 /* BaiduPanFileProvider.swift */; };
+		A38DF30026BF74B20096A515 /* BaiduPanFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38DF2FE26BF74B20096A515 /* BaiduPanFileProvider.swift */; };
+		A38DF30126BF74B20096A515 /* BaiduPanFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38DF2FE26BF74B20096A515 /* BaiduPanFileProvider.swift */; };
+		A38DF30326BF74D00096A515 /* BiaduPanHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38DF30226BF74D00096A515 /* BiaduPanHelper.swift */; };
+		A38DF30426BF74D00096A515 /* BiaduPanHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38DF30226BF74D00096A515 /* BiaduPanHelper.swift */; };
+		A38DF30526BF74D00096A515 /* BiaduPanHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38DF30226BF74D00096A515 /* BiaduPanHelper.swift */; };
 		A3D8FDC726B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */; };
 		A3D8FDC826B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */; };
 		A3D8FDC926B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */; };
@@ -223,6 +229,8 @@
 		79F5745A1DFDB10A00179ABF /* FileObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileObject.swift; sourceTree = "<group>"; };
 		A310EBBE26BAAEFE000F1D16 /* BoxFileProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxFileProvider.swift; sourceTree = "<group>"; };
 		A310EBBF26BAAEFE000F1D16 /* BoxFileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxFileHelper.swift; sourceTree = "<group>"; };
+		A38DF2FE26BF74B20096A515 /* BaiduPanFileProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaiduPanFileProvider.swift; sourceTree = "<group>"; };
+		A38DF30226BF74D00096A515 /* BiaduPanHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiaduPanHelper.swift; sourceTree = "<group>"; };
 		A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveFileProvider.swift; sourceTree = "<group>"; };
 		A3D8FDCA26B78D82003DC622 /* GoogleDriveHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveHelper.swift; sourceTree = "<group>"; };
 		CE27C498219BFFA0000BE23C /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTrustPolicy.swift; sourceTree = "<group>"; };
@@ -371,6 +379,8 @@
 				79BD63C41E2D17880035128C /* OneDriveHelper.swift */,
 				A3D8FDC626B78D6B003DC622 /* GoogleDriveFileProvider.swift */,
 				A3D8FDCA26B78D82003DC622 /* GoogleDriveHelper.swift */,
+				A38DF2FE26BF74B20096A515 /* BaiduPanFileProvider.swift */,
+				A38DF30226BF74D00096A515 /* BiaduPanHelper.swift */,
 				799396A61D48C02300086753 /* WebDAVFileProvider.swift */,
 				7936BC111E880F5700A6C81C /* FTPFileProvider.swift */,
 				798654321E8874BC002FA550 /* FTPHelper.swift */,
@@ -618,6 +628,7 @@
 				A310EBC326BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */,
 				798654331E8874BC002FA550 /* FTPHelper.swift in Sources */,
 				7924B1B21D89FCDA00589DB7 /* FPSStreamTask.swift in Sources */,
+				A38DF2FF26BF74B20096A515 /* BaiduPanFileProvider.swift in Sources */,
 				799396C51D48C02300086753 /* SMB2FileOperation.swift in Sources */,
 				79BD63C81E2D17880035128C /* OneDriveHelper.swift in Sources */,
 				799396BF1D48C02300086753 /* SMB2DataTypes.swift in Sources */,
@@ -626,6 +637,7 @@
 				794C21FE1D58912A00EC49B8 /* DropboxHelper.swift in Sources */,
 				794C220A1D5893F800EC49B8 /* SMB2Notification.swift in Sources */,
 				799396D11D48C02300086753 /* SMB2SetInfo.swift in Sources */,
+				A38DF30326BF74D00096A515 /* BiaduPanHelper.swift in Sources */,
 				A3D8FDC726B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */,
 				7924B1961D89DAE000589DB7 /* Document.swift in Sources */,
 				7902C0861D61B56D00564440 /* RemoteSession.swift in Sources */,
@@ -667,6 +679,7 @@
 				A310EBC426BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */,
 				79F4678B1E8B80F200C91A85 /* FTPHelper.swift in Sources */,
 				799396D81D48C02300086753 /* SMB2Types.swift in Sources */,
+				A38DF30026BF74B20096A515 /* BaiduPanFileProvider.swift in Sources */,
 				799396C61D48C02300086753 /* SMB2FileOperation.swift in Sources */,
 				79BD63C91E2D17880035128C /* OneDriveHelper.swift in Sources */,
 				799396C01D48C02300086753 /* SMB2DataTypes.swift in Sources */,
@@ -675,6 +688,7 @@
 				794C21FF1D58912A00EC49B8 /* DropboxHelper.swift in Sources */,
 				794C220B1D5893F800EC49B8 /* SMB2Notification.swift in Sources */,
 				799396D21D48C02300086753 /* SMB2SetInfo.swift in Sources */,
+				A38DF30426BF74D00096A515 /* BiaduPanHelper.swift in Sources */,
 				A3D8FDC826B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */,
 				7924B1971D89DAE000589DB7 /* Document.swift in Sources */,
 				7902C0871D61B67100564440 /* RemoteSession.swift in Sources */,
@@ -716,6 +730,7 @@
 				A310EBC526BAAEFE000F1D16 /* BoxFileHelper.swift in Sources */,
 				79F4678C1E8B80F200C91A85 /* FTPHelper.swift in Sources */,
 				799396D91D48C02300086753 /* SMB2Types.swift in Sources */,
+				A38DF30126BF74B20096A515 /* BaiduPanFileProvider.swift in Sources */,
 				799396C71D48C02300086753 /* SMB2FileOperation.swift in Sources */,
 				79BD63CA1E2D17880035128C /* OneDriveHelper.swift in Sources */,
 				799396C11D48C02300086753 /* SMB2DataTypes.swift in Sources */,
@@ -724,6 +739,7 @@
 				794C22001D58912A00EC49B8 /* DropboxHelper.swift in Sources */,
 				794C220C1D5893F800EC49B8 /* SMB2Notification.swift in Sources */,
 				799396D31D48C02300086753 /* SMB2SetInfo.swift in Sources */,
+				A38DF30526BF74D00096A515 /* BiaduPanHelper.swift in Sources */,
 				A3D8FDC926B78D6B003DC622 /* GoogleDriveFileProvider.swift in Sources */,
 				7924B1981D89DAE000589DB7 /* Document.swift in Sources */,
 				7902C0881D61B67100564440 /* RemoteSession.swift in Sources */,
