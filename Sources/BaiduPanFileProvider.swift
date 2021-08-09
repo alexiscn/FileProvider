@@ -99,6 +99,35 @@ open class BaiduPanFileProvider: HTTPFileProvider, FileProviderSharing {
         task.resume()
     }
     
+    override func request(for operation: FileOperationType, overwrite: Bool = false, attributes: [URLResourceKey : Any] = [:]) -> URLRequest {
+        
+        let action: String
+        let method: String
+        switch operation {
+        case .fetch(path: let path):
+            return URLRequest(url: URL(string: "")!)
+        case .move(let source, let dest):
+            action = "mover"
+            method = "POST"
+        case .remove(let path):
+            action = "delete"
+            method = "POST"
+        default:
+            fatalError("Unimplemented operation \(operation.description) in \(#file)")
+        }
+        let accessToken = credential?.password ?? ""
+        let urlString = apiURL.absoluteString.appending("/xpan/file?method=filemanager&access_token=\(accessToken)&opera=\(action)")
+        
+        var requestDictionary = [String: Any]()
+        requestDictionary["async"] = 1
+        
+        var request = URLRequest(url: URL(string: urlString)!)
+        request.httpMethod = method
+        request.httpBody = Data(jsonDictionary: requestDictionary)
+        
+        return request
+    }
+    
     public func getCurrentUser(completionHandler: @escaping (BaiduPanAccount?, Error?) -> Void) {
         
         var parameters: [String: String] = [:]
