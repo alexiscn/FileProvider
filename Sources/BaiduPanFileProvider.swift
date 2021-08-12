@@ -101,29 +101,48 @@ open class BaiduPanFileProvider: HTTPFileProvider, FileProviderSharing {
     
     override func request(for operation: FileOperationType, overwrite: Bool = false, attributes: [URLResourceKey : Any] = [:]) -> URLRequest {
         
+        var requestDictionary = [String: Any]()
+        requestDictionary["async"] = 1
+        
+        struct Move: CustomStringConvertible {
+            let path: String
+            let dest: String
+            let newname: String
+            
+            var description: String {
+                return "{\"path\":\"\(path)\",\"dest\":\"\(dest)\",\"newname\":\"\(newname)\"}"
+            }
+        }
+        
         let action: String
         let method: String
         switch operation {
         case .fetch(path: let path):
             return URLRequest(url: URL(string: "")!)
         case .move(let source, let dest):
-            action = "mover"
+            action = "move"
             method = "POST"
+            let destPath = dest.components(separatedBy: "/").dropLast().joined(separator: "/")
+            let newname = dest.components(separatedBy: "/").last ?? ""
+            let move = Move(path: source, dest: destPath, newname: newname)
+            requestDictionary["filelist"] = [move]
         case .remove(let path):
             action = "delete"
             method = "POST"
+            requestDictionary["filelist"] = [path]
+            requestDictionary["ondup"] = "fail"
         default:
             fatalError("Unimplemented operation \(operation.description) in \(#file)")
         }
         let accessToken = credential?.password ?? ""
         let urlString = apiURL.absoluteString.appending("/xpan/file?method=filemanager&access_token=\(accessToken)&opera=\(action)")
         
-        var requestDictionary = [String: Any]()
-        requestDictionary["async"] = 1
-        
         var request = URLRequest(url: URL(string: urlString)!)
         request.httpMethod = method
-        request.httpBody = Data(jsonDictionary: requestDictionary)
+        
+        // different from other service
+        let body = requestDictionary.map { "\($0.key)=\($0.value)" }.joined(separator: "&")
+        request.httpBody = body.data(using: .utf8)
         
         return request
     }
