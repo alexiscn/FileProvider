@@ -321,6 +321,7 @@ open class FTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOpera
                     if response.hasPrefix("500") {
                         self.supportsRFC3659 = false
                         self.attributesOfItem(path: path, rfc3659enabled: false, completionHandler: completionHandler)
+                        return
                     }
                     
                     let lines = response.components(separatedBy: "\n").compactMap { $0.isEmpty ? nil : $0.trimmingCharacters(in: .whitespacesAndNewlines) }
