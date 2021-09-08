@@ -240,38 +240,41 @@ open class FTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOpera
         task.serverTrustPolicy = serverTrustPolicy
         task.taskDescription = FileOperationType.fetch(path: path).json
         self.ftpLogin(task) { (error) in
-            if let error = error {
-                self.dispatch_queue.async {
-                    completionHandler([], error)
-                }
-                return
-            }
-            
-            self.ftpList(task, of: self.ftpPath(path), useMLST: rfc3659enabled, completionHandler: { (contents, error) in
-                defer {
-                    self.ftpQuit(task)
-                }
+            self.execute(command: "OPTS UTF8 ON", on: task) { response, error in
                 if let error = error {
-                    if let uerror = error as? URLError, uerror.code == .unsupportedURL {
-                        self.contentsOfDirectory(path: path, rfc3659enabled: false, completionHandler: completionHandler)
-                        return
-                    }
-                    
                     self.dispatch_queue.async {
                         completionHandler([], error)
                     }
                     return
                 }
                 
-                
-                let files: [FileObject] = contents.compactMap {
-                    rfc3659enabled ? self.parseMLST($0, in: path) : (self.parseUnixList($0, in: path) ?? self.parseDOSList($0, in: path))
-                }
-                
-                self.dispatch_queue.async {
-                    completionHandler(files, nil)
-                }
-            })
+                self.ftpList(task, of: self.ftpPath(path), useMLST: rfc3659enabled, completionHandler: { (contents, error) in
+                    defer {
+                        self.ftpQuit(task)
+                    }
+                    if let error = error {
+                        if let uerror = error as? URLError, uerror.code == .unsupportedURL {
+                            self.contentsOfDirectory(path: path, rfc3659enabled: false, completionHandler: completionHandler)
+                            return
+                        }
+                        
+                        self.dispatch_queue.async {
+                            completionHandler([], error)
+                        }
+                        return
+                    }
+                    
+                    
+                    let files: [FileObject] = contents.compactMap {
+                        rfc3659enabled ? self.parseMLST($0, in: path) : (self.parseUnixList($0, in: path) ?? self.parseDOSList($0, in: path))
+                    }
+                    
+                    self.dispatch_queue.async {
+                        completionHandler(files, nil)
+                    }
+                })
+            }
+            
         }
     }
     

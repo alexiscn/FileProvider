@@ -193,6 +193,11 @@ internal extension FTPFileProvider {
                     throw URLError(.badServerResponse, url: self.url(of: ""))
                 }
                 
+                if response.trimmingCharacters(in: .whitespaces).hasPrefix("425") {
+                    self.ftpExtendedPassive(task, completionHandler: completionHandler)
+                    return
+                }
+                
                 let destArray = destString.components(separatedBy: ",").compactMap({ UInt32(trimmedNumber($0)) })
                 guard destArray.count == 6 else {
                     throw URLError(.badServerResponse, url: self.url(of: ""))
@@ -259,8 +264,8 @@ internal extension FTPFileProvider {
                     passiveTask.serverTrustPolicy = task.serverTrustPolicy
                     passiveTask.reuseSSLSession(task: task)
                     passiveTask.startSecureConnection()
+                    passiveTask.securityLevel = .tlSv1
                 }
-                passiveTask.securityLevel = .tlSv1
                 passiveTask.resume()
                 completionHandler(passiveTask, nil)
             } catch {
